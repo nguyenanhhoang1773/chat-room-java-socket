@@ -14,18 +14,22 @@ public class ChatClient {
     private JButton sendButton;
     private JPanel panel;
     private JList<String> userList;  // JList để hiển thị danh sách người dùng
-    private DefaultListModel<String> userListModel;  // Model để quản lý danh sách người dùng
+    private DefaultListModel<String> userListModel;
+    private JLabel name;// Model để quản lý danh sách người dùng
     public ChatClient() {
         // Thiết lập giao diện người dùng
         frame = new JFrame("Chat Room");
         panel = new JPanel();
+        System.out.println(username);
+        name = new JLabel("username:");
         textField = new JTextField(40);
         textField.setPreferredSize(new Dimension(700, 40));
         messageArea = new JTextArea(20, 40);
         sendButton = new JButton("Send");
         sendButton.setPreferredSize(new Dimension(150, 40));
         messageArea.setEditable(false);
-        panel.add(textField, BorderLayout.WEST);
+        panel.add(name, BorderLayout.WEST);
+        panel.add(textField, BorderLayout.CENTER);
         panel.add(sendButton, BorderLayout.EAST);
         userListModel = new DefaultListModel<>();
         userList = new JList<>(userListModel);
@@ -68,6 +72,8 @@ public class ChatClient {
             String serverMessage = in.readLine();
             if (serverMessage.startsWith("SUBMITNAME")) {
                 username = JOptionPane.showInputDialog(frame, "Enter your username:", "Username", JOptionPane.PLAIN_MESSAGE);
+                System.out.println(username);
+                name.setText(username);
                 out.println(username);
             } else if (serverMessage.startsWith("USERLIST")) {
                 // Khi server gửi danh sách người dùng, cập nhật JList
